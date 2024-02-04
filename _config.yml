@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Hanna Lachnitt / Homepage"
+title                    : "Hanna Lachnitt"
 title_separator          : "-"
 name                     : &name "Hanna Lachnitt"
 description              : &description "Personal homepage"
