@@ -12,8 +12,8 @@ Welcome to my website! I am Hanna a fourth-year PhD student at Stanford Universi
 
 I am interested in Automated Reasoning and Formal Verification. Currently, I am working on reconstructing fine-grained proof certificates from the cvc5 SMT solver in the interactive theorem prover Isabelle.
 
-<img src="/images/IsabelleAsksCVC5.svg" alt="isabellecvc5" width="400" class="center"/>
+<img src="/images/IsabelleAsksCVC5.svg" alt="isabellecvc5" width="500" class="center"/>
 
 News:
 
-- Coming soon! Our tool paper on IsaRARE has been accepted to TACAS 24. IsaRARE is a tool that can transform rewrite rules written in the RARE language into Isabelle lemmas. See more on this 
+- Coming soon! Our tool paper on IsaRARE has been accepted to TACAS 24. IsaRARE is a tool that can transform rewrite rules written in the RARE language into Isabelle lemmas.
