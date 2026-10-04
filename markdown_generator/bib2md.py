@@ -220,6 +220,16 @@ def acronym(booktitle: str) -> str | None:
     return None
 
 
+def arxiv_id(e: dict) -> str:
+    """The arXiv identifier of an entry, or "" if it is not an arXiv record."""
+    eprint = delatex(e.get("eprint", ""))
+    if eprint:
+        return eprint
+    if delatex(e.get("journal", "")).lower() in ("corr", "arxiv"):
+        return delatex(e.get("volume", "")).replace("abs/", "")
+    return ""
+
+
 def categorise(e: dict) -> str:
     override = e.get("pubtype") or e.get("category")
     if override:
@@ -229,8 +239,7 @@ def categorise(e: dict) -> str:
                   file=sys.stderr)
             return "other"
         return chosen
-    journal = delatex(e.get("journal", ""))
-    if e.get("eprint") or journal.lower() in ("corr", "arxiv"):
+    if arxiv_id(e):
         return "preprint"
     if e["type"] in ("phdthesis", "mastersthesis"):
         return "thesis"
@@ -241,12 +250,11 @@ def categorise(e: dict) -> str:
     return "other"
 
 
-def venue_of(e: dict, category: str) -> tuple[str, str]:
+def venue_of(e: dict) -> tuple[str, str]:
     """(short venue for the list, full venue for the detail page)."""
-    if category == "preprint":
-        eprint = delatex(e.get("eprint", "")) or delatex(e.get("volume", "")).replace("abs/", "")
-        short = f"arXiv:{eprint}" if eprint else "Preprint"
-        return short, short
+    arxiv = arxiv_id(e)
+    if arxiv:
+        return f"arXiv:{arxiv}", f"arXiv:{arxiv}"
     raw_booktitle = e.get("booktitle", "")
     if raw_booktitle:
         full = delatex(raw_booktitle)
@@ -257,8 +265,22 @@ def venue_of(e: dict, category: str) -> tuple[str, str]:
     if e.get("school"):
         full = delatex(e["school"])
         return full, full
-    full = delatex(e.get("publisher", ""))
+    full = delatex(e.get("publisher", "")) or "Preprint"
     return full, full
+
+
+# Hosts whose links deserve a more specific label than the generic "Paper".
+URL_LABELS = (
+    ("isa-afp.org", "AFP Entry"),
+)
+
+
+def url_label(url: str) -> str:
+    host = url.lower()
+    for needle, label in URL_LABELS:
+        if needle in host:
+            return label
+    return "PDF" if host.endswith(".pdf") else "Paper"
 
 
 def links_of(e: dict) -> list[tuple[str, str]]:
@@ -278,8 +300,7 @@ def links_of(e: dict) -> list[tuple[str, str]]:
         add("arXiv", "https://arxiv.org/abs/" + clean_url(e["eprint"]))
     if e.get("url"):
         url = clean_url(e["url"])
-        label = "PDF" if url.lower().endswith(".pdf") else "Paper"
-        add(label, url)
+        add(url_label(url), url)
     for field, label in (("code", "Code"), ("slides", "Slides"), ("video", "Video")):
         if e.get(field):
             add(label, clean_url(e[field]))
@@ -315,7 +336,7 @@ def render(e: dict) -> tuple[str, str]:
     title = delatex(e.get("title", "Untitled"))
     authors = parse_authors(e.get("author", "") or e.get("editor", ""))
     category = categorise(e)
-    venue, venue_full = venue_of(e, category)
+    venue, venue_full = venue_of(e)
     date = date_of(e)
     year = date[:4]
     links = links_of(e)
@@ -334,7 +355,7 @@ def render(e: dict) -> tuple[str, str]:
         f"bibkey: {yaml_quote(e['key'])}",
         MARKER,
     ]
-    numbering = () if category == "preprint" else ("volume", "number", "publisher")
+    numbering = () if arxiv_id(e) else ("volume", "number", "publisher")
     for field in numbering + ("award",):
         key = field
         if e.get(field):

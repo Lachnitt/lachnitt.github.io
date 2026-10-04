@@ -29,15 +29,18 @@ marker in their front matter).
 
 * Parses BibTeX with the standard library only — no `pip install` needed.
 * Converts LaTeX accents and escapes to Unicode (`N{\"{o}}tzli` → `Nötzli`).
-* Sorts entries into sections: journal articles, conference and workshop
-  papers, preprints, theses, other. The section is guessed from the entry type
-  (`@article` in `CoRR`, or anything with an `eprint` field, counts as a
-  preprint).
+* Sorts entries into sections: Journal Articles, Conference and Workshop
+  Papers, Preprints and Others, Theses. The section is guessed from the entry
+  type (`@article` in `CoRR`, or anything with an `eprint` field, counts as a
+  preprint). "Preprints and Others" holds both the `preprint` and the `other`
+  pubtype; the section list lives at the top of `_pages/publications.md`.
 * Shortens conference venues to the acronym DBLP already braces in the
   `booktitle` (`{TACAS} 2023, Held as Part of ...` → `TACAS`); the full venue
   stays available as the tooltip and on the paper's own page.
 * Collects `doi`, `eprint` and `url` into the link row and keeps the verbatim
-  BibTeX entry for the "BibTeX" toggle.
+  BibTeX entry for the "BibTeX" toggle. A plain `url` is labelled "PDF" when it
+  ends in `.pdf`, "AFP Entry" for `isa-afp.org`, and "Paper" otherwise -- see
+  `URL_LABELS` in `bib2md.py` to add a host.
 
 ## Optional fields
 
@@ -46,7 +49,7 @@ ignore them.
 
 | Field | Effect |
 | --- | --- |
-| `pubtype = {journal}` | Force the section (`journal`, `conference`, `preprint`, `thesis`, `other`). |
+| `pubtype = {other}` | Force the section: `journal`, `conference`, `preprint`, `thesis` or `other`. `preprint` and `other` both render under "Preprints and Others". |
 | `note = {...}` | One-line blurb shown under the entry. |
 | `award = {Best Paper}` | Badge next to the venue. |
 | `code = {https://...}` | Adds a "Code" link. |

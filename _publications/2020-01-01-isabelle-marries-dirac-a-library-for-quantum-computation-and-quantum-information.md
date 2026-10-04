@@ -1,7 +1,7 @@
 ---
 title: "Isabelle Marries Dirac: a Library for Quantum Computation and Quantum Information"
 collection: publications
-pubtype: journal
+pubtype: other
 permalink: /publication/2020-isabelle-marries-dirac-a-library-for-quantum-computation-and-quantum-information/
 date: 2020-01-01
 venue: "Arch. Formal Proofs"
@@ -12,11 +12,12 @@ generated_from_bibtex: true
 volume: "2020"
 paperurl: "https://www.isa-afp.org/entries/Isabelle_Marries_Dirac.html"
 links:
-  - label: "Paper"
+  - label: "AFP Entry"
     url: "https://www.isa-afp.org/entries/Isabelle_Marries_Dirac.html"
 citation: "Anthony Bordg, Hanna Lachnitt, and Yijun He. “Isabelle Marries Dirac: a Library for Quantum Computation and Quantum Information.” Arch. Formal Proofs, 2020."
 bibtex: |
   @article{DBLP:journals/afp/BordgLH20,
+    pubtype      = {other},
     author       = {Anthony Bordg and
                     Hanna Lachnitt and
                     Yijun He},
@@ -32,6 +33,6 @@ bibtex: |
   }
 ---
 
-[Paper](https://www.isa-afp.org/entries/Isabelle_Marries_Dirac.html)
+[AFP Entry](https://www.isa-afp.org/entries/Isabelle_Marries_Dirac.html)
 
 {% include publication-bibtex.html %}
