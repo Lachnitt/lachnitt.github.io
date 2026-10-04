@@ -1,0 +1,30 @@
+{% include base_path %}
+
+{%- capture me -%}<strong class="pub-me">{{ site.author.name }}</strong>{%- endcapture -%}
+{%- assign authors = post.authors | escape | replace: site.author.name, me -%}
+
+<div class="pub-item">
+  <h3 class="pub-title">
+    <a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a>
+  </h3>
+
+  <p class="pub-authors">{{ authors }}</p>
+
+  <p class="pub-meta">
+    <span class="pub-venue"{% if post.venue_full and post.venue_full != post.venue %} title="{{ post.venue_full | escape }}"{% endif %}>{{ post.venue }}</span>,
+    {{ post.date | date: "%Y" }}
+    {%- if post.award %} <span class="pub-award">{{ post.award }}</span>{% endif -%}
+  </p>
+
+  {% if post.blurb %}<p class="pub-note">{{ post.blurb }}</p>{% endif %}
+
+  <div class="pub-links">
+    {%- for link in post.links %}<a href="{{ link.url }}">{{ link.label }}</a>{% endfor -%}
+    {%- if post.bibtex -%}
+    <details class="pub-bib">
+      <summary>BibTeX</summary>
+      <pre><code>{{ post.bibtex | strip | escape }}</code></pre>
+    </details>
+    {%- endif -%}
+  </div>
+</div>

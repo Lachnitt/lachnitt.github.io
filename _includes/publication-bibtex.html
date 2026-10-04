@@ -1,0 +1,6 @@
+{% if page.bibtex %}
+<details class="bibtex-block">
+  <summary>BibTeX</summary>
+  <pre><code>{{ page.bibtex | strip | escape }}</code></pre>
+</details>
+{% endif %}

@@ -1,0 +1,148 @@
+/* ==========================================================================
+   PUBLICATION LIST
+   Generated from _bibliography/papers.bib, rendered by
+   _includes/archive-single-publication.html
+   ========================================================================== */
+
+.pub-section {
+  margin: 2em 0 0.75em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid $border-color;
+  font-size: $type-size-4;
+}
+
+.pub-list {
+  margin-bottom: 1em;
+}
+
+.pub-item {
+  padding: 0.85em 0;
+
+  & + .pub-item {
+    border-top: 1px solid mix(#fff, $border-color, 40%);
+  }
+
+  p {
+    margin: 0.15em 0;
+  }
+}
+
+.pub-title {
+  margin: 0 0 0.2em;
+  font-size: $type-size-5;
+  line-height: 1.35;
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+
+    &:hover {
+      color: $link-color-hover;
+      text-decoration: underline;
+    }
+  }
+}
+
+.pub-authors {
+  color: $text-color;
+  font-size: $type-size-6;
+}
+
+.pub-me {
+  font-weight: 700;
+}
+
+.pub-meta {
+  color: $gray;
+  font-size: $type-size-6;
+}
+
+.pub-venue {
+  font-style: italic;
+}
+
+.pub-award {
+  margin-left: 0.4em;
+  padding: 0.1em 0.45em;
+  border-radius: 3px;
+  background-color: mix(#fff, $warning-color, 75%);
+  color: mix(#000, $warning-color, 45%);
+  font-size: $type-size-7;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pub-note {
+  color: $gray;
+  font-size: $type-size-6;
+}
+
+.pub-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 0.4em;
+  font-size: $type-size-6;
+
+  > a,
+  .pub-bib > summary {
+    display: inline-block;
+    margin-right: 0.4em;
+    padding: 0.1em 0.5em;
+    border: 1px solid $border-color;
+    border-radius: 3px;
+    color: $link-color;
+    text-decoration: none;
+  }
+
+  > a:hover,
+  .pub-bib > summary:hover {
+    border-color: $link-color;
+    background-color: mix(#fff, $link-color, 92%);
+  }
+}
+
+.pub-bib {
+  /* Collapsed it sits in the row of links; open it takes a line of its own. */
+  &[open] {
+    flex-basis: 100%;
+  }
+
+  > summary {
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  pre {
+    margin: 0.5em 0 0;
+  }
+}
+
+/* BibTeX block on an individual publication page. */
+.bibtex-block {
+  margin: 1.5em 0;
+
+  > summary {
+    cursor: pointer;
+    color: $link-color;
+    font-size: $type-size-6;
+  }
+}
+
+.pub-bib pre,
+.bibtex-block pre {
+  padding: 0.75em 1em;
+  overflow-x: auto;
+  border: 1px solid $border-color;
+  border-radius: 3px;
+  background-color: $code-background-color;
+  font-family: $monospace;
+  font-size: $type-size-7;
+  line-height: 1.5;
+  white-space: pre;
+}
