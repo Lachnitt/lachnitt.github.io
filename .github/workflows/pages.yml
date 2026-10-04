@@ -1,0 +1,67 @@
+# Builds and deploys the site to GitHub Pages.
+#
+# This replaces the legacy "Deploy from a branch" Pages build, which could only
+# use the `github-pages` gem's frozen dependency set. Requires
+# Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+#
+# The publication list is regenerated from _bibliography/papers.bib as part of
+# the build, so pushing a change to the .bib file is enough to update the site.
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deployment finish rather than cancelling it half-way.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Regenerate the publication list from papers.bib
+        run: |
+          python3 markdown_generator/bib2md.py
+          if ! git diff --quiet -- _publications; then
+            echo "::notice::_publications was out of date with papers.bib and has been regenerated for this build. Run 'python3 markdown_generator/bib2md.py' locally and commit to keep the repository in sync."
+          fi
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

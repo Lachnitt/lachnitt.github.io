@@ -16,9 +16,10 @@ from one file:
    which rewrites `_publications/*.md` — one Markdown page per entry.
 3. Commit both the `.bib` change and the regenerated pages.
 
-Step 2 is optional: `.github/workflows/publications.yml` runs the same command
-on every push that touches the `.bib` file and commits the result for you. So
-pushing only the `.bib` edit works too.
+Step 2 is optional: `.github/workflows/pages.yml` runs the same command before
+it builds the site, so pushing only the `.bib` edit also updates the live page.
+Regenerating locally just keeps the repository itself in sync (the workflow
+prints a notice when it had to regenerate).
 
 Nothing in `_publications/` should be edited by hand — the generator overwrites
 every file it previously produced (they carry a `generated_from_bibtex: true`
@@ -58,6 +59,11 @@ ignore them.
     python3 markdown_generator/bib2md.py --check
 
 exits non-zero when `_publications/` does not match the `.bib` file.
+
+## Local preview
+
+    bundle install
+    bundle exec jekyll serve --livereload
 
 ## Where the rendering lives
 
