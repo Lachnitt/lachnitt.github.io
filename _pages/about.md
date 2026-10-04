@@ -16,4 +16,5 @@ I am interested in Automated Reasoning and Formal Verification. Currently, I am 
 
 News:
 
-- Coming soon! Our tool paper on IsaRARE has been accepted to TACAS 24. IsaRARE is a tool that can transform rewrite rules written in the RARE language into Isabelle lemmas.
+- Coming soon! Better integration of cvc5 into Isabelle should be available with the next release. We made a lot of changes so things will break. Please let me know if you get any SMT related errors, even if they concern veriT and z3.
+
