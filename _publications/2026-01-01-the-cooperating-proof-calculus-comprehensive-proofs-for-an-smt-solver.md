@@ -16,9 +16,12 @@ paperurl: "https://doi.org/10.1007/978-3-032-32526-6_9"
 links:
   - label: "DOI"
     url: "https://doi.org/10.1007/978-3-032-32526-6_9"
+  - label: "Code"
+    url: "https://doi.org/10.5281/zenodo.19867026"
 citation: "Andrew Reynolds, Hans-Jörg Schurr, Haniel Barbosa, Ofec Israel, Jibiana Jakpor, Hanna Lachnitt, Abdalrhman Mohamed, Aina Niemetz, Mathias Preiner, Yoni Zohar, Robert B. Jones, Clark W. Barrett, and Cesare Tinelli. “The Cooperating Proof Calculus: Comprehensive Proofs for an SMT Solver.” Computer Aided Verification - 38th International Conference, CAV 2026, Lisbon, Portugal, July 26-29, 2026, Proceedings, Part II, 2026."
 bibtex: |
   @inproceedings{DBLP:conf/cav/ReynoldsSBIJLMNPZJBT26,
+    code         = {https://doi.org/10.5281/zenodo.19867026},
     author       = {Andrew Reynolds and
                     Hans{-}J{\"{o}}rg Schurr and
                     Haniel Barbosa and
@@ -52,6 +55,6 @@ bibtex: |
   }
 ---
 
-[DOI](https://doi.org/10.1007/978-3-032-32526-6_9)
+[DOI](https://doi.org/10.1007/978-3-032-32526-6_9) · [Code](https://doi.org/10.5281/zenodo.19867026)
 
 {% include publication-bibtex.html %}

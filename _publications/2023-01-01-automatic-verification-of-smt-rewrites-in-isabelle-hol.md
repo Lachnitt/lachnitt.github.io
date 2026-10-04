@@ -16,9 +16,12 @@ paperurl: "https://ceur-ws.org/Vol-3429/abstract14.pdf"
 links:
   - label: "PDF"
     url: "https://ceur-ws.org/Vol-3429/abstract14.pdf"
+  - label: "Code"
+    url: "https://doi.org/10.5281/zenodo.10048664"
 citation: "Hanna Lachnitt, Mathias Fleury, Leni Aniva, Andrew Reynolds, Haniel Barbosa, Andres Nötzli, Clark W. Barrett, and Cesare Tinelli. “Automatic Verification of SMT Rewrites in Isabelle/HOL.” Proceedings of the 21st International Workshop on Satisfiability Modulo Theories (SMT 2023) co-located with the 29th International Conference on Automated Deduction (CADE 2023), Rome, Italy, July, 5-6, 2023, 2023."
 bibtex: |
   @inproceedings{DBLP:conf/smt/LachnittFA0BNBT23,
+    code         = {https://doi.org/10.5281/zenodo.10048664},
     author       = {Hanna Lachnitt and
                     Mathias Fleury and
                     Leni Aniva and
@@ -45,6 +48,6 @@ bibtex: |
   }
 ---
 
-[PDF](https://ceur-ws.org/Vol-3429/abstract14.pdf)
+[PDF](https://ceur-ws.org/Vol-3429/abstract14.pdf) · [Code](https://doi.org/10.5281/zenodo.10048664)
 
 {% include publication-bibtex.html %}

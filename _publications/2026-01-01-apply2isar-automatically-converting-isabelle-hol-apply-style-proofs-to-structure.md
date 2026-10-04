@@ -16,9 +16,12 @@ paperurl: "https://doi.org/10.4230/LIPICS.ITP.2026.18"
 links:
   - label: "DOI"
     url: "https://doi.org/10.4230/LIPICS.ITP.2026.18"
+  - label: "Code"
+    url: "https://doi.org/10.4230/artifacts.27121"
 citation: "Sage Binder, Hanna Lachnitt, and Katherine Kosaian. “Apply2Isar: Automatically Converting Isabelle/HOL Apply-Style Proofs to Structured Isar.” 17th International Conference on Interactive Theorem Proving, ITP 2026, Lisbon, Portugal, July 26-29, 2026, 2026."
 bibtex: |
   @inproceedings{DBLP:conf/itp/BinderLK26,
+    code         = {https://doi.org/10.4230/artifacts.27121},
     author       = {Sage Binder and
                     Hanna Lachnitt and
                     Katherine Kosaian},
@@ -41,6 +44,6 @@ bibtex: |
   }
 ---
 
-[DOI](https://doi.org/10.4230/LIPICS.ITP.2026.18)
+[DOI](https://doi.org/10.4230/LIPICS.ITP.2026.18) · [Code](https://doi.org/10.4230/artifacts.27121)
 
 {% include publication-bibtex.html %}
