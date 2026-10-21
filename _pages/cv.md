@@ -7,53 +7,32 @@ redirect_from:
   - /resume
 ---
 
-{% include base_path %}
+{% comment %}
+  Each section below is a plain Markdown list. The suggested shape of an entry:
 
-Education
-======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+      * **Role or degree**, Organisation <span class="cv-date">2020 -- present</span>
+          * Advisor, topic, or anything else worth a second line.
 
-Work experience
-======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+  Notes:
+    * `<span class="cv-date">` right-aligns the date. Leaving it out is fine --
+      the entry then just reads as one line.
+    * A plain newline does NOT break the line; use a nested bullet (as above)
+      or end the line with two spaces.
+    * `--` becomes an en dash, so write date ranges as `2020 -- present`.
+{% endcomment %}
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-  
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+## Education
 
-Publications
-======
-  <ul>{% for post in site.publications %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks %}
-    {% include archive-single-talk-cv.html %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+* **PhD in Computer Science**, Stanford University, USA <span class="cv-date">09/2020 -- present</span>
+    * Advisor: Clark Barrett
+    * GPA 4.0
+* **MSc in Logic and Computation**, TU Vienna, Austria <span class="cv-date">03/2018 -- 06/2020</span>
+    * Grade 1.0 (corresponds to a 4.0 GPA), summa cum laude
+* **BSc in Computer Science**, Free University Berlin, Germany <span class="cv-date">10/2014 -- 09/2017</span>
+    * Grade 1.3 (corresponds to a 3.7 GPA), summa cum laude
+
+## Research Experience
+
+## Teaching
+
+## Professional Experience
