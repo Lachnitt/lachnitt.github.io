@@ -21,6 +21,8 @@ redirect_from:
     * `--` becomes an en dash, so write date ranges as `2020 -- present`.
 {% endcomment %}
 
+Download my CV here: [cv.pdf]({{ "/cv/cv.pdf" | relative_url }})
+
 ## Education
 
 * **PhD in Computer Science**, Stanford University, USA <span class="cv-date">09/2020 -- present</span>
