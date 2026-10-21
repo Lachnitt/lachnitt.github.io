@@ -1,0 +1,9 @@
+# Jekyll build output (the GitHub Actions workflow rebuilds it on every push)
+_site/
+.jekyll-cache/
+
+# LaTeX helper files from building the CV
+cv/*.aux
+cv/*.log
+cv/*.out
+cv/*.synctex.gz
