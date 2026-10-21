@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "CV"
+title: "Curriculum Vitae"
 permalink: /cv/
 author_profile: true
 redirect_from:
@@ -21,7 +21,7 @@ redirect_from:
     * `--` becomes an en dash, so write date ranges as `2020 -- present`.
 {% endcomment %}
 
-Download my CV here: [cv.pdf]({{ "/cv/cv.pdf" | relative_url }})
+Download my full CV here: [cv.pdf]({{ "/cv/cv.pdf" | relative_url }})
 
 ## Education
 
