@@ -33,6 +33,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{fontawesome5}
 
+\usepackage{xspace}
+\newcommand{\cvcv}{\textsc{cvc}5\xspace}
+
 % Color definitions
 \definecolor{darkblue}{RGB}{0,0,139}
 \definecolor{darkgreen}{RGB}{0,110,50}
@@ -92,6 +95,14 @@
   }
 }
 
+% Layout switch: true = no bullets, headings flush left, details indented;
+% false = original bulleted layout
+\newif\ifhangingheadings
+\hangingheadingstrue
+\newlength{\cvdetailindent}
+\ifhangingheadings\setlength{\cvdetailindent}{1.2em}\else\setlength{\cvdetailindent}{0pt}\fi
+\newcommand{\cvdetail}{\hspace*{\cvdetailindent}}
+
 \newcommand{\resumePOR}[3]{
 \vspace{0.5mm}\item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
@@ -100,14 +111,19 @@
     \vspace{-2mm}
 }
 
-% Optional argument: publication reference, shown on its own line below the supervisor
-\newcommand{\resumeSubheading}[5][]{
+% Prints #2 (prefixed by #1) if nonempty, separated from earlier parts by " | "
+\newif\ifcvfirst
+\newcommand{\cvpart}[2][]{\if\relax\detokenize{#2}\relax\else\ifcvfirst\cvfirstfalse\else\enspace|\enspace\fi#1#2\fi}
+
+% Optional arguments: [publication reference][extra text], shown on the same line as the supervisor
+\NewDocumentCommand{\resumeSubheading}{O{} O{} m m m m}{
 \vspace{0.5mm}\item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
-        \textbf{#2} & \textit{\footnotesize{#5}} \\
-        \if\relax\detokenize{#4}\relax\else \textit{\footnotesize{#4}} & \\ \fi
-        \if\relax\detokenize{#3}\relax\else \footnotesize{#3} & \\ \fi
-        \if\relax\detokenize{#1}\relax\else \footnotesize{Publication: #1} & \\ \fi
+        \textbf{#3} & \textit{\footnotesize{#6}} \\
+        \if\relax\detokenize{#5}\relax\else \cvdetail\textit{\footnotesize{#5}} & \\ \fi
+        \if\relax\detokenize{#4#1#2}\relax\else
+            \multicolumn{2}{@{\hspace*{\cvdetailindent}}p{\dimexpr0.98\textwidth-\cvdetailindent}}{\raggedright\footnotesize\cvfirsttrue\cvpart{#4}\cvpart[Publication: ]{#1}\cvpart{#2}} \\
+        \fi
     \end{tabular*}
     \vspace{-2.4mm}
 }
@@ -116,7 +132,7 @@
 \vspace{0.5mm}\item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
         \textbf{#1} & \textit{\footnotesize{#3}} \\
-        \footnotesize{\textit{#2}} & \footnotesize{#4}
+        \cvdetail\footnotesize{\textit{#2}} & \footnotesize{#4}
     \end{tabular*}
     \vspace{-2.4mm}
 }
@@ -126,13 +142,17 @@
 \renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}
 \renewcommand{\labelitemii}{$\vcenter{\hbox{\tiny$\circ$}}$}
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=1mm]}
+\newcommand{\resumeSubHeadingListStart}{\ifhangingheadings
+  \begin{itemize}[label={},leftmargin=\cvdetailindent,itemindent=-\cvdetailindent,labelwidth=0pt,labelsep=0pt]
+  \else\begin{itemize}[leftmargin=*,labelsep=1mm]\fi}
 \newcommand{\resumeHeadingSkillStart}{\begin{itemize}[leftmargin=*,itemsep=1.7mm, rightmargin=2ex]}
 \newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=*,labelsep=1mm,itemsep=0.5mm]}
 
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{2mm}}
 \newcommand{\resumeHeadingSkillEnd}{\end{itemize}\vspace{-2mm}}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2mm}}
+% Subsection title inside a \section
+\newcommand{\cvsubsection}[1]{\vspace{1mm}{\underline{\textit{\textbf{#1}}}}\par\vspace{-3.5mm}}
 \newcommand{\cvsection}[1]{%
 \vspace{2mm}
 \begin{tcolorbox}
@@ -160,6 +180,9 @@
 \newcommand{\headerfontviii}{\fontfamily{qpl}\selectfont} % Quasi-Palatino (another elegant serif option)
 \newcommand{\headerfontix}{\fontfamily{qtm}\selectfont} % Quasi-Times (another Times New Roman alternative)
 \newcommand{\headerfontx}{\fontfamily{bch}\selectfont} % Charter (clean serif font)
+
+\newcommand{\cvsep}{\enspace|\enspace}
+
 
 \begin{document}
 \headerfontiii
@@ -198,141 +221,177 @@ My research has been centered around proof certificates for SMT solvers. My obje
 \vspace{-0.4mm}
 \resumeSubHeadingListStart
 
-\resumeSubheading
-{Stanford University (USA)}{Advisor: Clark Barrett}
-{PhD, Computer Science}{since 09/2020}
-\resumeItemListStart
-\item GPA: 4.0
-\resumeItemListEnd
+\resumeSubheading[][Advisor: Clark Barrett\cvsep GPA: 4.0]
+{Stanford University (USA)}{PhD, Computer Science}
+{}{since 09/2020}
 
-\resumeSubheading
-{TU Wien (Austria)}{Advisor: Laura Kovács}
-{MSc, Logic and Computation}{03/2018 -- 06/2020}
-\resumeItemListStart
-\item 1.0 (corresponds to 4.0 GPA), summa cum laude
-\resumeItemListEnd
+\resumeSubheading[][Advisor: Laura Kovács\cvsep 1.0 (corresponds to 4.0 GPA), summa cum laude]
+{TU Wien (Austria)}{MSc, Logic and Computation}
+{}{03/2018 -- 06/2020}
 
-\resumeSubheading
-{Free University Berlin (Germany)}{}
-{BSc, Computer Science}{10/2014 -- 09/2017}
-\resumeItemListStart
-\item 1.3 (corresponds to 3.7 GPA), summa cum laude
-\resumeItemListEnd
+\resumeSubheading[][1.3 (corresponds to 3.7 GPA), summa cum laude]
+{Free University Berlin (Germany)}{BSc, Computer Science}
+{}{10/2014 -- 09/2017}
 
 \resumeSubHeadingListEnd
 \vspace{-2mm}
 
-\section{\textbf{Selected Publications}}
-\vspace{0.2mm}
-\small{
-\begin{enumerate}[leftmargin=*, labelsep=0.5em, align=left, widest={[12]}, itemindent=0em]
-\item[\ref{pub:itp25}] H. Lachnitt, M. Fleury, H. Barbosa, J. Jakpor, B. Andreotti, A. Reynolds, H.-J. Schurr, C. W. Barrett, and C. Tinelli. \textbf{Improving the SMT Proof Reconstruction Pipeline in Isabelle/HOL}. In \textit{16th International Conference on Interactive Theorem Proving (ITP 2025)}, LIPIcs 352, pp. 26:1--26:22. Schloss Dagstuhl -- Leibniz-Zentrum für Informatik, 2025.
-
-\item[\ref{pub:isarare}] H. Lachnitt, M. Fleury, L. Aniva, A. Reynolds, H. Barbosa, A. Nötzli, C. W. Barrett, and C. Tinelli. \textbf{IsaRare: Automatic Verification of SMT Rewrites in Isabelle/HOL}. In \textit{30th International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS 2024)}, pp. 311--330. Springer, 2024.
-\end{enumerate}
-}
+%\section{\textbf{Selected Publications}}
+%\vspace{0.2mm}
+%\small{
+%\begin{enumerate}[leftmargin=*, labelsep=0.5em, align=left, widest={[12]}, itemindent=0em]
+%\item[\ref{pub:itp25}] H. Lachnitt, M. Fleury, H. Barbosa, J. Jakpor, B. Andreotti, A. Reynolds, H.-J. Schurr, C. W. Barrett, and C. Tinelli. \textbf{ the SMT Proof Reconstruction Pipeline in Isabelle/HOL}. ImprovingIn \textit{16th International Conference on Interactive Theorem Proving (ITP 2025)}, LIPIcs 352, pp. 26:1--26:22. Schloss Dagstuhl -- Leibniz-Zentrum für Informatik, 2025.
+%
+%\item[\ref{pub:isarare}] H. Lachnitt, M. Fleury, L. Aniva, A. Reynolds, H. Barbosa, A. Nötzli, C. W. Barrett, and C. Tinelli. \textbf{IsaRare: Automatic Verification of SMT Rewrites in Isabelle/HOL}. In \textit{30th International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS 2024)}, pp. 311--330. Springer, 2024.
+%\end{enumerate}
+%}
 
 \section{\textbf{Research Experience}}
 \vspace{-0.4mm}
 \resumeSubHeadingListStart
 
-\resumeSubheading[\ref{pub:carcara}]
+
+\resumeSubheading[\ref{pub:carcara}][Parallel proof checking of an DRAT based SMT format]
 {Visiting Researcher at UFMG (Brazil)}{Supervisor: Haniel Barbosa}
 {}{06/2023}
-\resumeItemListStart
-\item We experimented with enriching the SAT proof format DRAT with theory information and tested its suitability for parallel checking.
-\item We also worked on enhancing the Alethe proof format.
-\resumeItemListEnd
 
-\resumeSubheading[\ref{pub:isca22}]
-{Research Collaboration}{Supervisor: Caroline Trippel}
+
+
+\resumeSubheading[][Improved the integration of \cvcv into Isabelle]
+{Visiting Researcher at Freiburg University (Germany)}{Supervisor: Mathias Fleury}
+{}{09/2024}
+
+
+
+
+\resumeSubheading[\ref{pub:isca22}][Hardware Verification. Developed axiomatic security contracts.]
+{Research Collaboration with Trippel Lab, Stanford University}{Supervisor: Caroline Trippel}
 {}{11/2020 -- 05/2022}
-\resumeItemListStart
-\item We developed Leakage Containment Models (LCMs), a novel axiomatic security contract capturing extra-architectural communication (e.g.\ using the cache) and speculative execution.
-\resumeItemListEnd
 
-\resumeSubheading[\ref{pub:cicm20}]
+\resumeSubheading[\ref{pub:cicm20}][Formalizing Graph Trail Properties]
 {Research Assistant, Automated Program Reasoning group, TU Wien}{Supervisor: Laura Kovács}
 {Master's Thesis: Formalizing Graph Trail Properties}{09/2019 -- 05/2020}
-\resumeItemListStart
-\item I formalized a graph trail problem in Isabelle.
-\resumeItemListEnd
 
-\resumeSubheading
+
+\resumeSubheading[][Formalizing Ethereum smart-contracts in F*]
 {Research Assistant, Formal Methods in Security group, TU Wien}{Supervisor: Matteo Maffei}
 {}{06/2018 -- 04/2019}
-\resumeItemListStart
-\item I helped with a formalization of a small-step semantics of Ethereum Virtual Machine bytecode in the programming language F*.
-\resumeItemListEnd
 
-\resumeSubheading[\ref{pub:jar21}]
-{Research Internship at the University of Cambridge}{Supervisors: Anthony Bordg, Lawrence Paulson}
+
+\resumeSubheading[\ref{pub:jar21}][Formalizing quantum computing algorithms in Isabelle/HOL]
+{Research Internship at the University of Cambridge (UK)}{Supervisors: Anthony Bordg, Lawrence Paulson}
 {}{06/2019 -- 09/2019}
-\resumeItemListStart
-\item Formalization of quantum computing in Isabelle/HOL, including Deutsch's algorithm, Deutsch--Jozsa algorithm, quantum Fourier transform and Grover's algorithm.
-\resumeItemListEnd
+
+
+\resumeSubheading[][Systematic Verification of the Intuitionistic Modal Logic Cube in Isabelle/HOL]
+{Bachelor's Thesis }{Supervisor: Christoph Benzmüller}
+{}{11/2016 -- 01/2017}
+
+\resumeSubHeadingListEnd
+\vspace{-2mm}
+
+\section{\textbf{Awards and Honors}}
+\vspace{-0.4mm}
+\cvsubsection{Academic Awards}
+\resumeSubHeadingListStart
+
 
 \resumeSubheading
-{Bachelor's Thesis}{Supervisor: Christoph Benzmüller}
-{Systematic Verification of the Intuitionistic Modal Logic Cube in Isabelle/HOL}{11/2016 -- 01/2017}
-\resumeItemListStart
-\item Embedding of intuitionistic modal logics into higher-order logic.
-\resumeItemListEnd
+{Distinguished Artifact Reviewer Award}{International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS)}
+{}{04/2026}
 
+\resumeSubheading
+{Rance Cleaveland Test-of-Time Tool Award}{For CVC4/cvc5 at International Joint Conferences On Theory and Practice of Software  (ETAPS)}
+{}{04/2026}
+
+\resumeSubheading
+{VerifyThis Verification Competition}{``Most impressive tool medley''}
+{}{04/2024}
+
+\resumeSubheading
+{SCP Best Tool Paper Award}{For \textit{cvc5: A Versatile and Industrial-Strength SMT Solver}}
+{}{04/2022}
 \resumeSubHeadingListEnd
-\vspace{-6mm}
-
-\section{\textbf{Awards and Scholarships}}
-\vspace{-0.4mm}
+\vspace{-1mm}
+\cvsubsection{Stipends}
 \resumeSubHeadingListStart
-\resumePOR{Distinguished Artifact Reviewer Award}{
-	at the International
-	 Conference on Tools and\\
-	Algorithms for the Construction and Analysis of Systems (TACAS)}{04/2026}
-\resumePOR{VerifyThis Verification Competition}{``Most impressive tool medley''}{04/2024}
-\resumePOR{SCP Best Tool Paper Award}{for \textit{cvc5: A Versatile and Industrial-Strength SMT Solver}}{04/2022}
-\resumePOR{Siemens Award for Excellence}{}{01/2020}
-\resumePOR{Helmut Veith Stipend}{}{03/2018 -- 02/2020}
-\resumeItemListStart
-\item Financial scholarship for female students pursuing a Logic Master's program at TU Wien,
 
- awarded to a single person per year
-\resumeItemListEnd
-\resumePOR{Deutschlandstipendium}{(German National Scholarship)}{10/2015 -- 09/2016}
-\resumeItemListStart
-\item Awarded by the Federal Republic of Germany for outstanding academic achievements
-\resumeItemListEnd
+
+\resumeSubheading
+{Siemens Award for Excellence}{Master Logic and Computation: Awarded to the best female students of the academic year}
+{}{01/2020}
+
+\resumeSubheading
+{Helmut Veith Stipend}{Financial scholarship for female students pursuing a Logic Master's program at TU Wien\\ awarded to a single person per year}
+{}{03/2018 -- 02/2020}
+
+\resumeSubheading
+{Deutschlandstipendium (German National Scholarship)}{Awarded by the Federal Republic of Germany for outstanding academic achievements}
+{}{10/2015 -- 09/2016}
 \resumeSubHeadingListEnd
-\vspace{-6mm}
+
+\vspace{-1mm}
+\cvsubsection{Invited Seminar Participation}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+{Banff 26w5626 - Theory and Practice of SAT and Combinatorial Solving
+}{}
+{}{01/2026}
+\resumeSubheading
+{Dagstuhl 25231 -  Certifying Algorithms for Automated Reasoning }{}
+{}{06/2025}
+
+\resumeSubheading
+{Dagstuhl 23471 -  The Next Generation of Deduction Systems: From Composition to Compositionality }{}
+{}{11/2023}
+
+\resumeSubHeadingListEnd
+
+\vspace{-2mm}
 
 \section{\textbf{Teaching \& Mentorship}}
 \vspace{-0.4mm}
 \resumeSubHeadingListStart
-\resumeSubheading
+\resumeSubheading[][Co-taught this class with Professor Caroline Trippel; gave half the lectures.]
 {Student Instructor at Stanford University}{}
 {CS257: Introduction to Automated Reasoning}{09/2025 -- 12/2025}
-\resumeItemListStart
-\item
-I co-taught this class with Professor Caroline Trippel, which included giving half the lectures.
-\resumeItemListEnd
-\resumeSubheading
+
+
+\resumeSubheading[][Duties included office hours, correcting assignments, exams, and supervising the final class project.\\ Designed exercise sheets.]
 {Teaching Assistant at Stanford University}{}
 {CS257: Introduction to Automated Reasoning}{\smash{\begin{tabular}[t]{@{}r@{}}09/2022 -- 12/2022\\ 09/2023 -- 12/2023\end{tabular}}}
-\resumeItemListStart
-\item My duties involved office hours, correcting assignments, exams, and supervising the final class project.
-\item Because 2022 was the first time the class was offered, I also designed most exercise sheets for the class. 
-\resumeItemListEnd
-\resumePOR{Mentoring:}{Jibiana Jakpor (now a PhD student at MIT)}{2022 -- 2025}
+
+\resumeSubheading[][Jibiana Jakpor (now a PhD student at MIT)]
+{Mentoring}{}
+{}{2022 -- 2025}
+
+
 \resumeSubHeadingListEnd
 \vspace{-2mm}
 
-\section{\textbf{Community Service}}
+\section{\textbf{Service}}
 \vspace{-0.4mm}
+\cvsubsection{External Service}
 \resumeSubHeadingListStart
 \resumePOR{}{\parbox[t]{0.89\textwidth}{\raggedright\hyphenpenalty=10000 \textbf{Program Committee member} of the 28th International Symposium on Symbolic and Numeric Algorithms for Scientific Computing (SYNASC 2026)}}{2026}
 \resumePOR{}{\parbox[t]{0.89\textwidth}{\raggedright\hyphenpenalty=10000 \textbf{Program Committee member} of the Satisfiability Checking and Symbolic Computation (SC$^2$) Workshop}}{2026}
 \resumePOR{Reviewer}{CADE, TACAS, SC$^2$, SYNASC, Mathematics in Computer Science Journal}{various}
 \resumePOR{Artifact reviewer}{TACAS, ATVA}{2023, 2024, 2025}
+\resumePOR{Volunteering at conferences}{FloC,CAV}{various}
+\resumeSubHeadingListEnd
+\vspace{-1mm}
+\cvsubsection{Stanford Service}
+\resumeSubHeadingListStart
+\resumePOR{Faculty Search Committee member}{at Stanford's CS department}{2025}
+\resumePOR{Chair of the PhD Advisory Council}{at Stanford's CS department}{11/2022 -- 11/2023}
+\resumePOR{Co-Organizer of the Women in CS Lunch}{at Stanford}{09/2021 -- 12/2022}
+\resumePOR{Student Reader}{on the Admissions Committee for CS PhD students at Stanford}{10/2022 -- 12/2022}
+\resumePOR{Other:}{}{}
+ Part of a team representing the Stanford CS Department at the Grace Hopper Conference, student buddy for new 
+ 
+ PhD students, panel member during admit days \ldots
+
 \resumeSubHeadingListEnd
 \vspace{-2mm}
 
@@ -341,53 +400,35 @@ I co-taught this class with Professor Caroline Trippel, which included giving ha
 \resumeSubHeadingListStart
 
 \resumeSubheading
-{Apple}{Supervisor: Thomas Rasmussen}
-{Hardware Formal Verification Intern}{06/2026 -- 08/2026}
-\resumeItemListStart
-\item TBA, waiting for release confirmation
-\resumeItemListEnd
+{Apple}{Hardware Formal Verification Intern\cvsep Supervisor: Thomas Rasmussen}
+{}{06/2026 -- 08/2026}
 
-\resumeSubheading
-{Amazon (AWS)}{Supervisor: Robert Jones}
-{Applied Science Intern}{06/2022 -- 09/2022}
-\resumeItemListStart
-\item During the internship at AWS, my team developed EDRAT, a new SMT proof format that extends the popular DRAT format for SAT proofs with theory reasoning. I worked on instructing the cvc5 SMT solver to output EDRAT proofs (see publication \ref{pub:fmcad24}).
-\resumeItemListEnd
+\resumeSubheading[\ref{pub:fmcad24}][Helped develop SMT proof format EDRAT.]
+{Amazon (AWS)}{Applied Science Intern\cvsep Supervisor: Robert Jones}
+{}{06/2022 -- 09/2022}
 
-\resumeSubheading
-{Apple}{Supervisor: Tim Pruss}
-{Software Formal Verification Intern}{06/2021 -- 09/2021}
-\resumeItemListStart
-\item I formally verified key aspects of a kernel system using the Isabelle proof assistant and gained experience verifying C code using the AutoCorres plugin.
-\resumeItemListEnd
+\resumeSubheading[][Verified parts of a kernel system in Isabelle/HOL.]
+{Apple}{Software Formal Verification Intern\cvsep Supervisor: Tim Pruss}
+{}{06/2021 -- 09/2021}
 
-\resumeSubheading
-{Bundesdruckerei GmbH}{}
-{Intern}{08/2016 -- 09/2016}
-\resumeItemListStart
-\item Contributed to the first draft of the standard ISO/IEC 39794-5: Information technology -- Biometric data interchange formats -- Part 5: Face Image Data
-\resumeItemListEnd
+\resumeSubheading[][Contributed to ISO/IEC 39794-5 standard on face image data.]
+{Bundesdruckerei GmbH}{Intern}
+{}{08/2016 -- 09/2016}
 
 \resumeSubHeadingListEnd
-\vspace{-6mm}
+\vspace{-2mm}
 
-\section{\textbf{Voluntary Work}}
-\vspace{-0.4mm}
-\resumeSubHeadingListStart
-\resumePOR{Faculty Search Committee member}{at Stanford's CS department}{2025}
-\resumePOR{Chair of the PhD Advisory Council}{at Stanford's CS department}{11/2022 -- 11/2023}
-\resumePOR{Co-Organizer of the Women in CS Lunch}{at Stanford}{09/2021 -- 12/2022}
-\resumePOR{Student Reader}{on the Admissions Committee for CS PhD students at Stanford}{10/2022 -- 12/2022}
-\resumePOR{Other:}{}{}
-\resumeItemListStart
-\item Part of a team representing the Stanford CS Department at the Grace Hopper Conference, student buddy for new PhD students, \ldots
-\resumeItemListEnd
-\resumeSubHeadingListEnd
-\vspace{-6mm}
+
+
+
+
 
 \section{\textbf{List of Publications}}
-\vspace{0.2mm}
+\vspace{-0.4mm}
+\cvsubsection{Conference Papers}
+
 \small{
+	\vspace{1.7mm}
 \begin{enumerate}[leftmargin=*, labelsep=0.5em, align=left, widest={[12]}, itemindent=0em, label={[\arabic*]}]
 \item\label{pub:cav26} A. Reynolds, H.-J. Schurr, H. Barbosa, O. Israel, J. Jakpor, H. Lachnitt, A. Mohamed, A. Niemetz, M. Preiner, Y. Zohar, R. B. Jones, C. W. Barrett, and C. Tinelli. \textbf{The Cooperating Proof Calculus: Comprehensive Proofs for an SMT Solver}. In \textit{38th International Conference on Computer Aided Verification (CAV 2026)}, Part II, LNCS 16683, pp. 188--212. Springer, 2026.
 
@@ -414,5 +455,39 @@ I co-taught this class with Professor Caroline Trippel, which included giving ha
 \item\label{pub:cicm20} L. Kovács, H. Lachnitt, and S. Szeider. \textbf{Formalizing Graph Trail Properties in Isabelle/HOL}. In \textit{13th International Conference on Intelligent Computer Mathematics (CICM 2020)}, LNCS 12236, pp. 190--205. Springer, 2020.
 \end{enumerate}
 }
+
+\section{\textbf{Presentations}}
+\vspace{-0.4mm}
+\cvsubsection{Selected Talks}
+
+\resumeSubHeadingListStart
+\resumePOR{Invited Talks}{on the \textit{Reconstruction of cvc5 Proofs in Isabelle/HOL}:}{}
+\resumePOR{}{DARPA PROVERS project, US}{08/2025,09/2026}
+\resumePOR{}{LMU München, Germany}{08/2026}
+\resumePOR{}{TU Wien, Austria}{09/2024}
+\resumePOR{}{Freiburg University, Germany}{09/2024}
+\resumePOR{}{Apple Inc., US}{12/2023}
+
+\resumePOR{Other Invited Talks}{}{}
+
+\resumePOR{}{UFMG, Brazil, Introduction into SMT solving}{06/2023}
+\resumePOR{Conference and Workshops Talks}{}{}
+\resumePOR{}{Improving the SMT Proof Reconstruction Pipeline in Isabelle/HOL, ITP}{10/2025}
+\resumePOR{}{IsaRare: Automatic Verification of SMT Rewrites in Isabelle/HOL, TACAS}{08/2024}
+
+\resumePOR{}{Dagstuhl Seminar 25231}{}
+
+\resumePOR{Guest Lecture}{}{}
+\resumePOR{}{ITP Introduction and Tutorial, \textit{CS357S: Formal Methods for Computer Systems, Stanford University}}{08/2026}
+\resumePOR{}{Isabelle/HOL Tutorial, \textit{Automated Deduction, TU Wien}}{2019}
+%CLARK: Add conference presentation
+%CLARK: Put after publications
+%Clark: One or two lines a talk
+\resumeSubHeadingListEnd
+\vspace{-0.4mm}
+\cvsubsection{Posters}
+
+\vspace{-6mm}
+
 
 \end{document}
